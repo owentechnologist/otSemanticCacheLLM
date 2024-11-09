@@ -1,7 +1,16 @@
 
 ## This example Uses https://localai.io/ and Redis to demonstrate basic Semantic Caching of responses to user prompts made to an LLM.
 
-## it does not utilize langchain https://python.langchain.com/docs/tutorials/ or redisVL https://www.redisvl.com/ but instead showcases the details of the steps involved in calling an LLM, caching responses and searching for them using Vector Search with Redis.  
+This project is an example of using Redis, RediSearch + Vector Similarity Search with Python
+
+A Useful link to python docs for redis:
+https://redis.readthedocs.io/en/stable/redismodules.html 
+
+To run the example, which utilizes Redis Vector Similarity Search, you do not need anything but a connection to Redis running Search 2.6 or higher.  
+
+You can create a free Redis Enterprise instance for this purpose by going to https://redis.com/try-free/   (Be sure to select Redis 8, Stack, or explicitly add Search for the type of Redis database you create)
+
+## This example does not utilize langchain https://python.langchain.com/docs/tutorials/ or redisVL https://www.redisvl.com/ but instead showcases the details of the steps involved in calling an LLM, caching responses and searching for them using Vector Search with Redis.  
 
 ## Python-preparation Steps for running the samples on your dev machine:
 
