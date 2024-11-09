@@ -1,7 +1,7 @@
 
-# This example Uses https://localai.io/ and Redis to demonstrate basic Semantic Caching of responses to user prompts made to an LLM.
+## This example Uses https://localai.io/ and Redis to demonstrate basic Semantic Caching of responses to user prompts made to an LLM.
 
-# it does not utilize langchain https://python.langchain.com/docs/tutorials/ or redisVL https://www.redisvl.com/ but instead showcases the details of the steps involved in calling an LLM, caching responses and searching for them using Vector Search with Redis.  
+## it does not utilize langchain https://python.langchain.com/docs/tutorials/ or redisVL https://www.redisvl.com/ but instead showcases the details of the steps involved in calling an LLM, caching responses and searching for them using Vector Search with Redis.  
 
 ## Python-preparation Steps for running the samples on your dev machine:
 
