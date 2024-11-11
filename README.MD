@@ -78,3 +78,10 @@ python3 simpleLLM_with_cache.py -h redis-10000.re-cluster1.ps-redislabs.org -p 1
     Question: the input question you must answer: {question}
 
     Answer: Let us examine together... """
+
+
+6. When you are done using this environment you can deactivate it:
+
+```
+source deactivate
+```

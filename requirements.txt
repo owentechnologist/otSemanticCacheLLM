@@ -2,3 +2,4 @@ redis>=4.3.4
 requests
 sentence-transformers
 jsonpath-ng
+numpy<2
