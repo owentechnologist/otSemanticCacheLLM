@@ -70,10 +70,15 @@ def string_for_keyname():
     s = str(uuid.uuid4())
     return(uid_prefix+':prompt:'+s)
 
+### LLM / AI Setup ###
+# Q: where is the LLM library? A: we are using a hosted 'localAI' server
+# https://localai.io/ 
+llm_chat_url = "http://35.237.73.4:8080/v1/chat/completions"
         
 ### Redis Setup / functions: ###
 
 ## checks sys.args for host and port etc...
+## the following values are placeholders 
 redis_host = 'USER-PROVIDED'#'redis-10000.re-cluster1.ps-redislabs.org'
 redis_port = 10000
 redis_password = ""
@@ -135,11 +140,6 @@ def vec_search(vindex,query_vector_as_bytes):
     )
     res = vindex.search(query, query_params = {'vec_param': query_vector_as_bytes, 'knn_vec': query_vector_as_bytes})
     return res.docs
-
-### LLM / AI Setup ###
-# Q: where is the LLM library? A: we are using a hosted 'localAI' server
-# https://localai.io/
-llm_chat_url = "http://35.237.73.4:8080/v1/chat/completions"
 
 ## This function is where we interact with the LLM 
 # - providing a prompt that guides the behavior as well as 
@@ -253,6 +253,6 @@ while True:
             redis_connection.hset(results[0].id,'response_key',(f'{uid_prefix}:prompt:response:{x}'))            
         
         # output whatever the result is to the User Interface:
-        print(f'{spacer}{llm_response}{spacer}\n')
+        print(f'{spacer}\n{llm_response}{spacer}\n')
         uparrows = " ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ \n"
         print(f'\t{uparrows}\tElapsed Time to respond to user prompt was: {(time.perf_counter()-start_time)*1} seconds\n')
