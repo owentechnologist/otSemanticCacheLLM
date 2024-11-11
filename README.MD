@@ -49,7 +49,7 @@ pip3 install -r requirements.txt
 5. run the program and fix it as necessary to get the behavior you want ( see below for possible prompt engineering options )
 
 ```
-python3 chatbot1.py -h redis-10000.re-cluster1.ps-redislabs.org -p 10000
+python3 simpleLLM_with_cache.py -h redis-10000.re-cluster1.ps-redislabs.org -p 10000
 ```
 
 * Prompt engineering options:
