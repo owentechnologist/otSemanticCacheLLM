@@ -1,5 +1,4 @@
 redis>=4.3.4
-redisvl>=0.0.3
 requests
 sentence-transformers
 jsonpath-ng
