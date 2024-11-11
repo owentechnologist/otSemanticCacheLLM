@@ -6,7 +6,7 @@ This project is an example of using Redis, RediSearch + Vector Similarity Search
 A Useful link to python docs for redis:
 https://redis.readthedocs.io/en/stable/redismodules.html 
 
-To run the example, which utilizes Redis Vector Similarity Search, you do not need anything but a connection to Redis running Search 2.6 or higher.  
+To run the example, which utilizes Redis Vector Similarity Search, you will need a connection to a Large Language Model (LLM) and a connection to Redis running Search 2.6 or higher. 
 
 You can create a free Redis Enterprise instance for this purpose by going to https://redis.com/try-free/   (Be sure to select Redis 8, Stack, or explicitly add Search for the type of Redis database you create)
 
