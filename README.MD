@@ -46,14 +46,15 @@ etc ...
 pip3 install -r requirements.txt
 ```
 
-5. run the program and fix it as necessary to get the behavior you want ( see below for possible prompt engineering options )
+5. Edit your local copy of the code as you like and run the program.  Fix it as necessary to get the behavior you want ( see below for possible prompt engineering options )
 
 ```
 python3 simpleLLM_with_cache.py -h redis-10000.re-cluster1.ps-redislabs.org -p 10000
 ```
 
 * Prompt engineering options:
-### Try your hand at prompt engineering by playing with these templates: ( the user input can be couched in such a template to modify the output of the LLM )
+### At Around line 157 in the file: simpleLLM_with_cache.py 
+### You can try your hand at prompt engineering by playing with these templates: ( the user input can be couched in such a template to modify the output of the LLM )
 
     template_=f"""You are a helpful virtual technology and IT assistant. Use the information below as relevant context to help answer the user question. Don't blindly make things up. If you don't know the answer, just say that you don't know, don't try to make up an answer. Keep the answer as concise as possible.
 

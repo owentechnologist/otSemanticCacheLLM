@@ -155,7 +155,8 @@ def ask_llm(question):
         """    
     # HERE IS WHERE YOU COULD PASTE IN A DIFFERENT template_:
 
-    llm_request_data = {"model": "qwen2.5-0.5b-instruct","response_format": {"type": "json"}, "messages": [{"role": "user", "content": f"{template_}"}], "temperature": 0.25}
+
+    llm_request_data = {"model": "qwen2.5-1.5b-instruct","response_format": {"type": "json"}, "messages": [{"role": "user", "content": f"{template_}"}], "temperature": 0.25}
     print(f"DEBUG: we are sending this to the LLM:\n {llm_request_data}")
     headers =  {"Content-Type": "application/json"}    
     myResponse = requests.post(llm_chat_url,json=llm_request_data,headers=headers )
