@@ -75,6 +75,9 @@ def string_for_keyname():
 # https://localai.io/ 
 llm_chat_url = "http://35.237.73.4:8080/v1/chat/completions"
         
+# bootstrap value, as we later check for the existence of user_input
+user_input = "BEGIN"
+
 ### Redis Setup / functions: ###
 
 ## checks sys.args for host and port etc...
@@ -133,7 +136,7 @@ def vec_search(vindex,query_vector_as_bytes):
     # KNN 10 specifies to return only up to 10 nearest results (could be unrelated)
     # the small VECTOR_RANGE specifies the prompts must be very similar
     query =(
-        Query(f'(@embedding:[VECTOR_RANGE .02 $vec_param]=>{{$yield_distance_as: range_dist}})=>[KNN 10 @embedding $knn_vec]=>{{$yield_distance_as: knn_dist}}')
+        Query(f'(@embedding:[VECTOR_RANGE .0102 $vec_param]=>{{$yield_distance_as: range_dist}})=>[KNN 10 @embedding $knn_vec]=>{{$yield_distance_as: knn_dist}}')
         .sort_by(f'knn_dist') #asc is default order
         .return_fields("response_key", "knn_dist")
         .dialect(2)
@@ -152,7 +155,7 @@ def ask_llm(question):
         """    
     # HERE IS WHERE YOU COULD PASTE IN A DIFFERENT template_:
 
-    llm_request_data = {"model": "qwen2.5-0.5b-instruct","response_format": {"type": "json"}, "messages": [{"role": "user", "content": f"{template_}"}], "temperature": 0.1}
+    llm_request_data = {"model": "qwen2.5-0.5b-instruct","response_format": {"type": "json"}, "messages": [{"role": "user", "content": f"{template_}"}], "temperature": 0.25}
     print(f"DEBUG: we are sending this to the LLM:\n {llm_request_data}")
     headers =  {"Content-Type": "application/json"}    
     myResponse = requests.post(llm_chat_url,json=llm_request_data,headers=headers )
@@ -172,9 +175,6 @@ def ask_llm(question):
         response_s=match.value
 
     return response_s
-
-# bootstrap value, as we later check for the existence of user_input
-user_input = "BEGIN"
 
 # initialize index in Redis (will not break if we attempt again)
 index_name = create_index_in_redis(redis_connection=redis_connection)

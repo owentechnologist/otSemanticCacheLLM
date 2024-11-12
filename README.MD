@@ -80,6 +80,16 @@ python3 simpleLLM_with_cache.py -h redis-10000.re-cluster1.ps-redislabs.org -p 1
 
     Answer: Indulge me as I sing... """
 
+### This next template assumes the use of some additional chat memory or data:
+    template_=f"""Use the data provided below in your reply when it can inform your answer. 
+
+        {memories_for_template}
+
+        You proudly focus on answering this Question:  {question} 
+
+        Answer: As I review the data, I understand...
+        """  
+
 6. When you are done using this environment you can deactivate it:
 
 ```
