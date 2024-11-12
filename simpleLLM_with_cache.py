@@ -123,7 +123,7 @@ def create_index_in_redis(redis_connection):
     SCHEMA = [
         VectorField("embedding", "FLAT", {"INITIAL_CAP": 1000, "TYPE": "FLOAT32", "DIM": 768, "DISTANCE_METRIC": "COSINE"}),
     ]
-    # Create the index
+    # Create the index (Index is created in the Redis Database)
     try:
         redis_connection.ft(index_name).create_index(fields=SCHEMA, definition=IndexDefinition(prefix=[(uid_prefix+":prompt:")], index_type=IndexType.HASH))
     except Exception as e:
