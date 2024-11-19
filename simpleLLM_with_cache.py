@@ -154,7 +154,8 @@ while True:
         # Before we search for a semantically similar prompt,
         # we need to make sure we store the hash in Redis with 
         # this latest prompt:
-        redis_connection.hset(name=string_for_keyname(), mapping=prompt_hash)
+        """ Uncomment the following line to enable Semantic caching """
+        # redis_connection.hset(name=string_for_keyname(), mapping=prompt_hash)
 
         # now we can search for semantically similar prompt(s)
         results = vec_search(redis_connection.ft(index_name),embedding_vector_as_bytes)
