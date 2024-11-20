@@ -98,7 +98,7 @@ def ask_llm(question):
     #template_=template_music(question)
     #template_=template_gang(question)
     #template_=template_poet(question)
-    
+
     llm_request_data = {"model": "qwen2.5-1.5b-instruct","response_format": {"type": "json"}, "messages": [{"role": "user", "content": f"{template_}"}], "temperature": 0.25}
     print(f"DEBUG: we are sending this to the LLM:\n {llm_request_data}")
     headers =  {"Content-Type": "application/json"}    
@@ -195,7 +195,8 @@ while True:
             redis_connection.set(f'{uid_prefix}:prompt:response:{x}',llm_response)
             # write the cached response keyname to the response attribute in redis:
             # due to sorting of the results by KNN distance ASC the first result should be our target:
-            redis_connection.hset(results[0].id,'response_key',(f'{uid_prefix}:prompt:response:{x}'))            
+            if (results):
+                redis_connection.hset(results[0].id,'response_key',(f'{uid_prefix}:prompt:response:{x}'))            
         
         # output whatever the result is to the User Interface:
         print(f'{spacer}\n{llm_response}{spacer}\n')
