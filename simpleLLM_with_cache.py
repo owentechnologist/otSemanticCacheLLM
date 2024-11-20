@@ -33,7 +33,7 @@ import time,uuid
 ### cmdline_utils==General Setup &
 # UI and Redis connection functions: ###
 from cmdline_utils import *
-
+from prompt_templates import *
 
 # when generating keys to be included in our search index
 # as well as the name of our search index we use this string
@@ -93,13 +93,12 @@ def vec_search(vindex,query_vector_as_bytes):
 # the question posed by the user:
 def ask_llm(question):
     # a little prompt engineering is needed to get the answers in a usable format:
-    template_=f"""The prompt that follows is a question you must answer in a friendly way. 
-        Prompt:  {question} 
-        Begin...
-        """    
-    # HERE IS WHERE YOU COULD PASTE IN A DIFFERENT template_:
-
-
+    # HERE IS WHERE you could call a different prompt_template function:
+    template_=template_base(question) 
+    #template_=template_music(question)
+    #template_=template_gang(question)
+    #template_=template_poet(question)
+    
     llm_request_data = {"model": "qwen2.5-1.5b-instruct","response_format": {"type": "json"}, "messages": [{"role": "user", "content": f"{template_}"}], "temperature": 0.25}
     print(f"DEBUG: we are sending this to the LLM:\n {llm_request_data}")
     headers =  {"Content-Type": "application/json"}    
