@@ -57,7 +57,7 @@ python3 simpleLLM_with_cache.py -h redis-10000.re-cluster1.ps-redislabs.org -p 1
 * To enable semantic caching the prompt needs to be stored in Redis in its embedded form so that Vector Search can find it - to enable that behavior uncomment line 158
 
 * Prompt engineering options:
-### At Around line 102 in the file: simpleLLM_with_cache.py 
+### At Around line 100 in the file: simpleLLM_with_cache.py 
 ### You can try your hand at prompt engineering by playing with the alternate templates provided in the file: prompt_templates.py: ( the user input can be couched in such a template to modify the output of the LLM )
 comment/uncomment the code to test different prompts:
 ```
