@@ -1,1 +1,4 @@
 simplellm1/**
+__pycache__/
+.DS_Store
+owennotes.txt

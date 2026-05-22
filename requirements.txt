@@ -1,4 +1,4 @@
-redis>=4.3.4
+redis>=7.0.1
 requests
 sentence-transformers
 jsonpath-ng
