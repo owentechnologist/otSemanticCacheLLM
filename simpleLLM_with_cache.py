@@ -63,14 +63,14 @@ llm_chat_url = "http://localhost:6060/v1/chat/completions"
 create_new_index = True
 
 # this function creates the index in redis and returns its name:
-def create_index_in_cache(cache_connection):
+def create_index_in_cache(datastore_connection):
     index_name = 'idx_vss_lclllm_'+uid_prefix
     SCHEMA = [
         VectorField("embedding", "FLAT", {"INITIAL_CAP": 1000, "TYPE": "FLOAT32", "DIM": 768, "DISTANCE_METRIC": "COSINE"}),
     ]
     # Create the index (Index is created in the Redis Database)
     try:
-        cache_connection.ft(index_name).create_index(fields=SCHEMA, definition=IndexDefinition(prefix=[(uid_prefix+":prompt:")], index_type=IndexType.HASH))
+        datastore_connection.ft(index_name).create_index(fields=SCHEMA, definition=IndexDefinition(prefix=[(uid_prefix+":prompt:")], index_type=IndexType.HASH))
     except Exception as e:
         print(repr(e))
     return index_name
@@ -138,9 +138,9 @@ def ask_llm(question):
     return response_s
 
 if __name__ == "__main__":
-    cache_connection = connect_to_datastore()
+    datastore_connection = connect_to_datastore()
     # initialize index in Redis (will not break if we attempt again)
-    index_name = create_index_in_cache(cache_connection)
+    index_name = create_index_in_cache(datastore_connection)
 
     # UI loop: (if user responds with "END" - program ends)
     while True:
@@ -174,10 +174,10 @@ if __name__ == "__main__":
             # we need to make sure we store the hash in Redis with 
             # this latest prompt:
             """ Uncomment the following line to enable Semantic caching """
-            cache_connection.hset(name=string_for_keyname(), mapping=prompt_hash)
+            datastore_connection.hset(name=string_for_keyname(), mapping=prompt_hash)
 
             # now we can search for semantically similar prompt(s)
-            results = vec_search(cache_connection.ft(index_name),embedding_vector_as_bytes)
+            results = vec_search(datastore_connection.ft(index_name),embedding_vector_as_bytes)
             # only write the response to prompt hashes in redis with response_key=""
             # due to the sortby this should always at least be the one at zero index
             # we expect at most 10 docs (KNN 10 is specified in query)
@@ -198,24 +198,24 @@ if __name__ == "__main__":
                     # llm_reponse_cache_key should point to a string in redis:
                     llm_response_cache_key=next_result.response_key
                     print(f'keyname of cached response: {llm_response_cache_key}')
-                    llm_response=cache_connection.get(llm_response_cache_key)
+                    llm_response=datastore_connection.get(llm_response_cache_key)
                 if found_useful_result: 
                     # write the nearby result as the response to this prompt in redis
                     # in this way, multiple prompts may share the same result
-                    cache_connection.hset(results[0].id,'response_key',llm_response_cache_key)
+                    datastore_connection.hset(results[0].id,'response_key',llm_response_cache_key)
                     break
             # we have exhausted all the potential matches:
             if not found_useful_result:
                 print('\n No suitable response has been cached.  Generating new Response...\n')
                 # create a new LLM-generated result as the answer:            
                 llm_response = ask_llm(user_input) 
-                x = cache_connection.incr(f'{uid_prefix}:prompt:responsekeycounter')
+                x = datastore_connection.incr(f'{uid_prefix}:prompt:responsekeycounter')
                 # store the full response in a string in redis 
-                cache_connection.set(f'{uid_prefix}:prompt:response:{x}',llm_response)
+                datastore_connection.set(f'{uid_prefix}:prompt:response:{x}',llm_response)
                 # write the cached response keyname to the response attribute in redis:
                 # due to sorting of the results by KNN distance ASC the first result should be our target:
                 if (results):
-                    cache_connection.hset(results[0].id,'response_key',(f'{uid_prefix}:prompt:response:{x}'))            
+                    datastore_connection.hset(results[0].id,'response_key',(f'{uid_prefix}:prompt:response:{x}'))            
             
             # output whatever the result is to the User Interface:
             print(f'{spacer}\n{llm_response}{spacer}\n')
